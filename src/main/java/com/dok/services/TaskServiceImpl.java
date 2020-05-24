@@ -14,16 +14,15 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Tasks processJson(Tasks tasks) {
-        // TODO: sort
-        this.tasks = tasks;
+        this.tasks = TaskSort.sort(tasks);
         return this.tasks;
     }
 
     @Override
     public String processBash(Tasks tasks) {
-        // TODO: sort
+        this.tasks = TaskSort.sort(tasks);
         StringJoiner joiner = new StringJoiner("", "#!/usr/bin/env bash", "");
-        for (Task task : tasks.getTasks()) {
+        for (Task task : this.tasks.getTasks()) {
             joiner.add("\n");
             joiner.add(task.getCommand());
         }

@@ -1,5 +1,6 @@
 package com.dok.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.ArrayList;
@@ -16,5 +17,19 @@ public class Tasks {
 
     public List<Task> getTasks() {
         return tasks;
+    }
+
+    @JsonIgnore
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    @JsonIgnore
+    public Task getTask(String name) {
+        return getTasks()
+                .stream()
+                .filter(task -> task.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
     }
 }
