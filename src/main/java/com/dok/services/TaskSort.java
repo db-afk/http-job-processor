@@ -18,7 +18,7 @@ public final class TaskSort {
     }
 
     public static Tasks sort(Tasks tasks) {
-        if (tasks == null || tasks.getTasks().isEmpty()) {
+        if (tasks == null || tasks.getTaskList().isEmpty()) {
             return null;
         }
 
@@ -27,12 +27,12 @@ public final class TaskSort {
 
         // Initially mark all task as not visited
         Map<String, Boolean> visited = tasks
-                .getTasks()
+                .getTaskList()
                 .stream()
                 .collect(Collectors.toMap(Task::getName, task -> false));
 
         // Traverse all non-visited tasks and search for required tasks which should be executed beforehand.
-        tasks.getTasks()
+        tasks.getTaskList()
                 .stream()
                 .filter(task -> !visited.get(task.getName()))
                 .forEach(task -> visitTask(tasks, task.getName(), visited, orderedTasks));

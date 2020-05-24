@@ -31,7 +31,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<String> processBash(Tasks tasks) {
         this.tasks = TaskSort.sort(tasks);
         StringJoiner joiner = new StringJoiner("", "#!/usr/bin/env bash", "");
-        for (Task task : this.tasks.getTasks()) {
+        for (Task task : this.tasks.getTaskList()) {
             joiner.add("\n");
             joiner.add(task.getCommand());
         }
