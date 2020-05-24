@@ -2,7 +2,13 @@ package com.dok.services;
 
 import com.dok.models.Task;
 import com.dok.models.Tasks;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.StringJoiner;
 
@@ -13,13 +19,16 @@ public class TaskServiceImpl implements TaskService {
     private Tasks tasks;
 
     @Override
-    public Tasks processJson(Tasks tasks) {
+    public ResponseEntity<Tasks> processJson(Tasks tasks) {
         this.tasks = TaskSort.sort(tasks);
-        return this.tasks;
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+        return new ResponseEntity<>(this.tasks, map, HttpStatus.OK);
     }
 
     @Override
-    public String processBash(Tasks tasks) {
+    public ResponseEntity<String> processBash(Tasks tasks) {
         this.tasks = TaskSort.sort(tasks);
         StringJoiner joiner = new StringJoiner("", "#!/usr/bin/env bash", "");
         for (Task task : this.tasks.getTasks()) {
@@ -29,16 +38,23 @@ public class TaskServiceImpl implements TaskService {
 
         bash = joiner.toString();
 
-        return bash;
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.set(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+        return new ResponseEntity<>(bash, map, HttpStatus.OK);
     }
 
     @Override
-    public Tasks getJson() {
-        return tasks;
+    public ResponseEntity<Tasks> getJson() {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+        return new ResponseEntity<>(tasks, map, HttpStatus.OK);
     }
 
     @Override
-    public String getBash() {
-        return bash;
+    public ResponseEntity<String> getBash() {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.set(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+        return new ResponseEntity<>(bash, map, HttpStatus.OK);
     }
 }

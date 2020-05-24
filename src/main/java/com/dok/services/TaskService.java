@@ -1,14 +1,15 @@
 package com.dok.services;
 
 import com.dok.models.Tasks;
+import org.springframework.http.ResponseEntity;
 
 public interface TaskService {
 
-    Tasks processJson(Tasks tasks);
+    ResponseEntity<Tasks> processJson(Tasks tasks);
 
-    String processBash(Tasks tasks);
+    ResponseEntity<String> processBash(Tasks tasks);
 
-    Tasks getJson();
+    ResponseEntity<Tasks> getJson();
 
-    String getBash();
+    ResponseEntity<String> getBash();
 }
