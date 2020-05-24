@@ -1,7 +1,7 @@
 package com.dok.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -11,13 +11,8 @@ import java.util.List;
 @JsonTypeName("task")
 public class Task {
 
-    @JsonProperty
     private String name;
-
-    @JsonProperty
     private String command;
-
-    @JsonProperty
     private List<String> requires;
 
     public Task() {
@@ -44,7 +39,7 @@ public class Task {
         this.command = command;
     }
 
-    @JsonGetter
+    @JsonIgnore
     public List<String> getRequires() {
         return requires;
     }
