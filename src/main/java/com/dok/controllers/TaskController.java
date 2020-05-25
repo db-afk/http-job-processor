@@ -16,29 +16,32 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskController {
 
     @Autowired
-    private TaskService taskService;
+    private TaskService<Tasks> taskServiceJson;
+
+    @Autowired
+    private TaskService<String> taskServiceBash;
 
     @GetMapping
     public ResponseEntity<Tasks> getJson() {
-        return taskService.getJson();
+        return taskServiceJson.get();
     }
 
     @PostMapping(headers = {"Accept=application/json"},
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tasks> processJson(@RequestBody Tasks tasks) {
-        return taskService.processJson(tasks);
+        return taskServiceJson.process(tasks);
     }
 
     @GetMapping(headers = {"x-api-version=2"})
     public ResponseEntity<String> getBash() {
-        return taskService.getBash();
+        return taskServiceBash.get();
     }
 
     @PostMapping(headers = {"Accept=application/json", "x-api-version=2"},
             produces = MediaType.TEXT_PLAIN_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> processBash(@RequestBody Tasks tasks) {
-        return taskService.processBash(tasks);
+        return taskServiceBash.process(tasks);
     }
 }
