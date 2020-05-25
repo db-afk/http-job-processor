@@ -10,7 +10,7 @@ import java.util.List;
 @JsonTypeName("tasks")
 public class Tasks {
 
-    private List<Task> taskList;
+    private final List<Task> taskList;
 
     public Tasks() {
         taskList = new ArrayList<>();
@@ -33,6 +33,11 @@ public class Tasks {
                 .filter(task -> task.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @JsonIgnore
+    public boolean isValid() {
+        return !getTaskList().isEmpty() && getTaskList().stream().allMatch(Task::isValid);
     }
 
     @Override

@@ -20,15 +20,26 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseEntity<Tasks> processJson(Tasks tasks) {
-        this.tasks = TaskSort.sort(tasks);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
+        if (!tasks.isValid()) {
+            return new ResponseEntity<>(null, map, HttpStatus.BAD_REQUEST);
+        }
+
+        this.tasks = TaskSort.sort(tasks);
         return new ResponseEntity<>(this.tasks, map, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<String> processBash(Tasks tasks) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.set(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+
+        if (!tasks.isValid()) {
+            return new ResponseEntity<>("", map, HttpStatus.BAD_REQUEST);
+        }
+
         this.tasks = TaskSort.sort(tasks);
         StringJoiner joiner = new StringJoiner("", "#!/usr/bin/env bash", "");
         for (Task task : this.tasks.getTaskList()) {
@@ -37,9 +48,6 @@ public class TaskServiceImpl implements TaskService {
         }
 
         bash = joiner.toString();
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.set(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
         return new ResponseEntity<>(bash, map, HttpStatus.OK);
     }
 

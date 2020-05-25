@@ -18,7 +18,7 @@ public final class TaskSort {
     }
 
     public static Tasks sort(Tasks tasks) {
-        if (tasks == null || tasks.getTaskList().isEmpty()) {
+        if (!tasks.isValid()) {
             return null;
         }
 

@@ -50,6 +50,11 @@ public class Task {
         this.requires = requires;
     }
 
+    @JsonIgnore
+    public boolean isValid() {
+        return name != null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
