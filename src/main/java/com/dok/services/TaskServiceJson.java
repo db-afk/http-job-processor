@@ -12,8 +12,6 @@ import org.springframework.util.MultiValueMap;
 @Service
 public class TaskServiceJson implements TaskService<Tasks> {
 
-    private Tasks tasks;
-
     @Override
     public ResponseEntity<Tasks> process(Tasks tasks) {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
@@ -23,15 +21,6 @@ public class TaskServiceJson implements TaskService<Tasks> {
             return new ResponseEntity<>(null, map, HttpStatus.BAD_REQUEST);
         }
 
-        this.tasks = TaskSort.sort(tasks);
-        return new ResponseEntity<>(this.tasks, map, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Tasks> get() {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-
-        return new ResponseEntity<>(tasks, map, HttpStatus.OK);
+        return new ResponseEntity<>(TaskSort.sort(tasks), map, HttpStatus.OK);
     }
 }

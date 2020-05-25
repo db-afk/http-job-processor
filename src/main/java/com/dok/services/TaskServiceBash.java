@@ -16,8 +16,6 @@ import java.util.StringJoiner;
 @Service
 public class TaskServiceBash implements TaskService<String> {
 
-    private String bash;
-
     @Override
     public ResponseEntity<String> process(Tasks tasks) {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
@@ -33,14 +31,6 @@ public class TaskServiceBash implements TaskService<String> {
             joiner.add(task.getCommand());
         }
 
-        bash = joiner.toString();
-        return new ResponseEntity<>(bash, map, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<String> get() {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.set(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-        return new ResponseEntity<>(bash, map, HttpStatus.OK);
+        return new ResponseEntity<>(joiner.toString(), map, HttpStatus.OK);
     }
 }

@@ -5,7 +5,6 @@ import com.dok.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,21 +20,11 @@ public class TaskController {
     @Autowired
     private TaskService<String> taskServiceBash;
 
-    @GetMapping
-    public ResponseEntity<Tasks> getJson() {
-        return taskServiceJson.get();
-    }
-
     @PostMapping(headers = {"Accept=application/json"},
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tasks> processJson(@RequestBody Tasks tasks) {
         return taskServiceJson.process(tasks);
-    }
-
-    @GetMapping(headers = {"x-api-version=2"})
-    public ResponseEntity<String> getBash() {
-        return taskServiceBash.get();
     }
 
     @PostMapping(headers = {"Accept=application/json", "x-api-version=2"},

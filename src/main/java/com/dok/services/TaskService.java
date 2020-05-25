@@ -3,9 +3,7 @@ package com.dok.services;
 import com.dok.models.Tasks;
 import org.springframework.http.ResponseEntity;
 
-public interface TaskService<Т> {
+public interface TaskService<T> {
 
-    ResponseEntity<Т> process(Tasks tasks);
-
-    ResponseEntity<Т> get();
+    ResponseEntity<T> process(Tasks tasks);
 }

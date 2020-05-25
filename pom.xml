@@ -6,7 +6,10 @@
 
     <groupId>org.dok</groupId>
     <artifactId>http-job-processor</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+    <name>http-job-processor</name>
+
+    <packaging>war</packaging>
 
     <developers>
         <developer>
